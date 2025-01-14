@@ -4,8 +4,8 @@ import (
 	"flag"
 	"os"
 
-	"github.com/devleomoliveira/loggingapi/src/pkg/version"
 	"loggingapi/src/pkg/config"
+	"loggingapi/src/pkg/version"
 
 	"github.com/sirupsen/logrus"
 )
