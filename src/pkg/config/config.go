@@ -1,9 +1,8 @@
 package config
 
 import (
-	"os"
-
 	"gopkg.in/yaml.v2"
+	"os"
 )
 
 type Config struct {
@@ -51,11 +50,11 @@ func Parse(appConfig string) (*Config, error) {
 	if err != nil {
 		return nil, err
 	}
+
 	defer file.Close()
 
-	if err := yaml.NewDecoder(file).Decode(&config); err != nil {
+	if err := yaml.NewDecoder(file).Decode(config); err != nil {
 		return nil, err
 	}
-
 	return config, nil
 }
