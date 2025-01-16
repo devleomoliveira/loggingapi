@@ -15,11 +15,11 @@ server:
   #jwtSecret: weaveserver
 
 db:
-  port: 5432
+  port: 27017
   host: "localhost"
-  name: "apiloggin"
-  user: "mongo"
-  password: "mongo"
+  name: "loggingapi"
+  user: ""
+  password: ""
   migrate: true
 
 redis:

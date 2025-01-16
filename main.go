@@ -2,9 +2,11 @@ package main
 
 import (
 	"flag"
+	"fmt"
 	"os"
 
 	"loggingapi/src/pkg/config"
+	"loggingapi/src/pkg/server"
 	"loggingapi/src/pkg/version"
 
 	"github.com/sirupsen/logrus"
@@ -30,14 +32,40 @@ func main() {
 	if err != nil {
 		logger.Fatalf("failed to parse application config")
 	}
-	println(conf)
-	/*
-		s, err := server.New(conf, logger)
-		if err != nil {
-			logger.Fatalf("failed to start server: %v", err)
-		}
 
-		if err := s.Run(); err != nil {
-			logger.Fatalf("failed to start server: %v", err)
-		}*/
+	s, err := server.New(conf, logger)
+	if err != nil {
+		logger.Fatalf("failed to start server %v", err)
+	}
+	fmt.Println(s)
+	/*
+
+		client, _ := database.New(&conf.DB)
+
+			err = client.Ping(context.Background(), nil)
+			if err != nil {
+				logger.Fatalf("failed to connect to database")
+			}
+			fmt.Println("Successfully connected to MongoDB")
+			collection := client.Database("loggingapi").Collection("logs")
+
+			documento := bson.D{
+				{Key: "nome", Value: "Exemplo"},
+				{Key: "valor", Value: 123},
+			}
+			resultado, err := collection.InsertOne(context.Background(), documento)
+			if err != nil {
+				log.Fatalf("Erro ao inserir documento: %v", err)
+			}
+
+			fmt.Printf("Documento inserido com ID: %v\n", resultado.InsertedID)
+
+			s, err := server.New(conf, logger)
+			if err != nil {
+				logger.Fatalf("failed to start server: %v", err)
+			}
+
+			if err := s.Run(); err != nil {
+				logger.Fatalf("failed to start server: %v", err)
+			}*/
 }
