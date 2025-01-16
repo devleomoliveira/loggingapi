@@ -1,6 +1,7 @@
 package config
 
 import (
+	"loggingapi/src/pkg/utils/ratelimit"
 	"os"
 
 	"gopkg.in/yaml.v2"
@@ -14,12 +15,12 @@ type Config struct {
 }
 
 type ServerConfig struct {
-	ENV                    string `yaml:"env"`
-	Address                string `yaml:"address"`
-	Port                   int    `yaml:"port"`
-	GracefulShutdownPeriod int    `yaml:"gracefulShutdownPeriod"`
-	//LimitConfigs           []ratelimit.LimitConfig `yaml:"rateLimits"`
-	JWTSecret string `yaml:"jwtSecret"`
+	ENV                    string                  `yaml:"env"`
+	Address                string                  `yaml:"address"`
+	Port                   int                     `yaml:"port"`
+	GracefulShutdownPeriod int                     `yaml:"gracefulShutdownPeriod"`
+	LimitConfigs           []ratelimit.LimitConfig `yaml:"rateLimits"`
+	JWTSecret              string                  `yaml:"jwtSecret"`
 }
 
 type DBConfig struct {

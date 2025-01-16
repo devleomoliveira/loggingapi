@@ -2,7 +2,6 @@ package main
 
 import (
 	"flag"
-	"fmt"
 	"os"
 
 	"loggingapi/src/pkg/config"
@@ -37,7 +36,10 @@ func main() {
 	if err != nil {
 		logger.Fatalf("failed to start server %v", err)
 	}
-	fmt.Println(s)
+
+	if err := s.Run(); err != nil {
+		logger.Fatalf("failed to start server %v", err)
+	}
 	/*
 
 		client, _ := database.New(&conf.DB)
