@@ -4,7 +4,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"loggingapi/src/pkg/common"
+	"loggingapi/src/routes"
 	"net/http"
 	"os"
 	"os/signal"
@@ -55,9 +55,8 @@ func (s *Server) Close() {
 func (s *Server) initRoutes() {
 	root := s.engine
 
-	root.Get("/api", func(w http.ResponseWriter, r *http.Request) {
-		common.ResponseSuccess(w, make(map[string]interface{}))
-	})
+	routes.Web(root)
+	routes.Api(root)
 }
 
 func (s *Server) Run() error {
