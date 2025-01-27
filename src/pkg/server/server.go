@@ -54,9 +54,9 @@ func (s *Server) Close() {
 
 func (s *Server) initRoutes() {
 	root := s.engine
-
-	routes.Web(root)
-	routes.Api(root)
+	conf := s.config
+	routes.Web(root, *conf)
+	routes.Api(root, *conf)
 }
 
 func (s *Server) Run() error {
