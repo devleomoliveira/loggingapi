@@ -7,7 +7,7 @@ import (
 	"net/http"
 )
 
-func Api(r chi.Router, c config.Config) {
+func Api(r chi.Router, config config.Config) {
 	r.Route("/api", func(r chi.Router) {
 		r.Route("/v1", func(r chi.Router) {
 			r.Group(func(r chi.Router) {
@@ -16,7 +16,7 @@ func Api(r chi.Router, c config.Config) {
 				})
 			})
 
-			if c.Server.ENV == "development" {
+			if config.Server.ENV == "development" {
 				r.Group(func(r chi.Router) {
 				})
 			}

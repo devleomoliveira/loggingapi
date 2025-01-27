@@ -10,4 +10,9 @@ func Web(r chi.Router, config config.Config) {
 	r.Group(func(r chi.Router) {
 		r.Get("/", controller.Index())
 	})
+
+	if config.Server.ENV == "development" {
+		r.Group(func(r chi.Router) {
+		})
+	}
 }
