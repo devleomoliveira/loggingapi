@@ -2,13 +2,10 @@ package model
 
 import (
 	"time"
-
-	"go.mongodb.org/mongo-driver/mongo"
 )
 
 type BaseModel struct {
-	collection mongo.Collection
-	CreatedAt  time.Time `json:"createdAt"`
-	UpdatedAt  time.Time `json:"updatedAt"`
-	DeletedAt  time.Time `json:"-"`
+	CreatedAt time.Time `bson:"created_at"`
+	UpdatedAt time.Time `bson:"updated_at"`
+	DeletedAt time.Time `bson:"deleted_at"`
 }

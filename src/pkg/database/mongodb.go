@@ -9,7 +9,7 @@ import (
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
-func New(conf *config.DBConfig) (*mongo.Client, error) {
+func NewMongoDB(conf *config.DBConfig) (*mongo.Database, error) {
 	dbURI := "mongodb://" + conf.Host
 	clientOptions := options.Client().ApplyURI(dbURI)
 	if conf.User != "" && conf.Password != "" {
@@ -24,5 +24,10 @@ func New(conf *config.DBConfig) (*mongo.Client, error) {
 		return nil, err
 	}
 
-	return client, nil
+	err = client.Ping(context.Background(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return client.Database(conf.Name), nil
 }

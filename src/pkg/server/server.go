@@ -4,6 +4,10 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"go.mongodb.org/mongo-driver/bson/primitive"
+	"loggingapi/src/pkg/database"
+	"loggingapi/src/pkg/model"
+	"loggingapi/src/pkg/repository"
 	"loggingapi/src/routes"
 	"net/http"
 	"os"
@@ -19,9 +23,10 @@ import (
 )
 
 type Server struct {
-	engine *chi.Mux
-	config *config.Config
-	logger *logrus.Logger
+	engine     *chi.Mux
+	config     *config.Config
+	logger     *logrus.Logger
+	repository repository.Repository
 }
 
 func New(conf *config.Config, logger *logrus.Logger) (*Server, error) {
@@ -30,11 +35,31 @@ func New(conf *config.Config, logger *logrus.Logger) (*Server, error) {
 		return nil, err
 	}
 
-	//init database (need for repository)
+	db, err := database.NewMongoDB(&conf.DB)
+	if err != nil {
+		return nil, err
+	}
 
-	//init redis?
+	fmt.Println("Successfully connected to MongoDB")
 
-	//init repository
+	repository := repository.New(db)
+
+	repository.Log().Store(model.Log{
+		UUID:     "e1597e3c-1b96-4a96-b42c-45872a8b887t",
+		Message:  "teste",
+		Name:     "teste",
+		Date:     primitive.NewDateTimeFromTime(time.Now()),
+		Category: "teste",
+		Level:    "info",
+		Tags:     []string{"teste", "teste"},
+		Trace:    []string{"1 teste", "2 teste"},
+		BaseModel: model.BaseModel{
+			CreatedAt: time.Now(),
+			UpdatedAt: time.Now(),
+			DeletedAt: time.Now(),
+		},
+	})
+	//repository.Log().Get("")
 
 	c := chi.NewMux()
 	c.Use(
@@ -42,9 +67,10 @@ func New(conf *config.Config, logger *logrus.Logger) (*Server, error) {
 	)
 
 	return &Server{
-		engine: c,
-		config: conf,
-		logger: logger,
+		engine:     c,
+		config:     conf,
+		logger:     logger,
+		repository: repository,
 	}, nil
 }
 
